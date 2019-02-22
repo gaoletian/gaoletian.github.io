@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>console.log 输出彩色文字 | 老高笔记</title>
+    <meta name="description" content="Just playing around">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.a95e02d1.css" as="style"><link rel="preload" href="/assets/js/app.18732c23.js" as="script"><link rel="preload" href="/assets/js/3.ee3477e8.js" as="script"><link rel="preload" href="/assets/js/2.438c29d7.js" as="script"><link rel="preload" href="/assets/js/14.0883bdf8.js" as="script"><link rel="prefetch" href="/assets/js/10.12412978.js"><link rel="prefetch" href="/assets/js/11.f08e7872.js"><link rel="prefetch" href="/assets/js/12.bffe24c1.js"><link rel="prefetch" href="/assets/js/13.6fb41f51.js"><link rel="prefetch" href="/assets/js/15.62ff05ba.js"><link rel="prefetch" href="/assets/js/16.5eae74de.js"><link rel="prefetch" href="/assets/js/17.edae1397.js"><link rel="prefetch" href="/assets/js/18.e57db8f2.js"><link rel="prefetch" href="/assets/js/19.d25e9189.js"><link rel="prefetch" href="/assets/js/20.d6d88328.js"><link rel="prefetch" href="/assets/js/21.eb00de78.js"><link rel="prefetch" href="/assets/js/4.b8c9bd84.js"><link rel="prefetch" href="/assets/js/5.0373c51a.js"><link rel="prefetch" href="/assets/js/6.3f0f2157.js"><link rel="prefetch" href="/assets/js/7.1325b268.js"><link rel="prefetch" href="/assets/js/8.7ddafe9a.js"><link rel="prefetch" href="/assets/js/9.51868c2e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a95e02d1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">老高笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <!----> </div> <div class="page"> <div class="content default"><h1 id="console-log-输出彩色文字"><a href="#console-log-输出彩色文字" aria-hidden="true" class="header-anchor">#</a> console.log 输出彩色文字</h1> <p>一个简单的功能，更多情况下，我更喜欢用原生的东西，而不是急着找第三方的支持。</p> <p>在 grunt 脚本中，如果要打印出带颜色的 log，我更倾向于使用如下的方式：</p> <div class="language-js extra-class"><pre class="language-js"><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;the \x1b[43mParty\x1b[0m is fucking \x1b[31m%s\x1b[0m u know?&quot;</span><span class="token punctuation">,</span> <span class="token string">&quot;shitty&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>可以在 node 的 REPL（Read-Eval-Print-Loop，node 的可交互运行环境）里执行以上的代码看效果（如果有人跟曾经的我一样是个 node 白痴，那就让我这个白痴减1来「指导」一下：首先确认 node 已安装，然后在你的命令行工具里输入 node，回车，这样就进入了 REPL 了，可以使用命令 .help 来看看怎么玩）。</p> <p>这样的代码虽然看起来很不友好，不容易读懂，但对于简单的任务来说，已经足够。复杂的任务可以使用第三方的包如 npm colors package。</p> <p>上面的<code>\x1b[0m</code>表示<code>「清除之前所有的样式」</code>，不管前面叠加了几个样式，统统都不见了，如下：</p> <div class="language-js extra-class"><pre class="language-js"><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">&quot;the \x1b[42m\x1b[34m\x1b[46mGreat Fire Wall\x1b[0m is most ugly and stupid!&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>以下是可以使用的文本命令的参考：</p> <p>前景色（文字颜色）：</p> <div class="language- extra-class"><pre class="language-text"><code>\x1b[30m = 黑色
+\x1b[31m = 红色
+\x1b[32m = 绿色
+\x1b[33m = 黄色
+\x1b[34m = 蓝色
+\x1b[35m = 洋红色
+\x1b[36m = 青色
+\x1b[37m = 白色
+背景色：
+
+\x1b[40m = 黑色
+\x1b[41m = 红色
+\x1b[42m = 绿色
+\x1b[43m = 黄色
+\x1b[44m = 蓝色
+\x1b[45m = 洋红色
+\x1b[46m = 青色
+\x1b[47m = 白色
+其他：
+
+\x1b[0m = 清除样式
+\x1b[1m = 加粗
+\x1b[2m = 半透明
+\x1b[4m = 下划线
+\x1b[5m = 闪动
+\x1b[7m = 取反：背景色变前景色 前景色变背景色
+\x1b[8m = 看不见 但位置还留着
+
+</code></pre></div><p>不难看出有以下规律可循：</p> <p>所有的文本命令都是以 \x1b[ 打头
+以m 结尾
+中间一到两位数字
+两位数字是颜色 4# 表示背景色 3# 表示前景色
+前景 / 背景色的第二个数对应的颜色一样
+一位数字是控制
+…其实我也只是在 这里 get 了的这个技能。</p></div> <div class="page-edit"><!----> <!----></div> <!----> </div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.18732c23.js" defer></script><script src="/assets/js/3.ee3477e8.js" defer></script><script src="/assets/js/2.438c29d7.js" defer></script><script src="/assets/js/14.0883bdf8.js" defer></script>
+  </body>
+</html>

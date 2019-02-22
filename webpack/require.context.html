@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>require.context | 老高笔记</title>
+    <meta name="description" content="Just playing around">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.a95e02d1.css" as="style"><link rel="preload" href="/assets/js/app.18732c23.js" as="script"><link rel="preload" href="/assets/js/3.ee3477e8.js" as="script"><link rel="preload" href="/assets/js/2.438c29d7.js" as="script"><link rel="preload" href="/assets/js/20.d6d88328.js" as="script"><link rel="prefetch" href="/assets/js/10.12412978.js"><link rel="prefetch" href="/assets/js/11.f08e7872.js"><link rel="prefetch" href="/assets/js/12.bffe24c1.js"><link rel="prefetch" href="/assets/js/13.6fb41f51.js"><link rel="prefetch" href="/assets/js/14.0883bdf8.js"><link rel="prefetch" href="/assets/js/15.62ff05ba.js"><link rel="prefetch" href="/assets/js/16.5eae74de.js"><link rel="prefetch" href="/assets/js/17.edae1397.js"><link rel="prefetch" href="/assets/js/18.e57db8f2.js"><link rel="prefetch" href="/assets/js/19.d25e9189.js"><link rel="prefetch" href="/assets/js/21.eb00de78.js"><link rel="prefetch" href="/assets/js/4.b8c9bd84.js"><link rel="prefetch" href="/assets/js/5.0373c51a.js"><link rel="prefetch" href="/assets/js/6.3f0f2157.js"><link rel="prefetch" href="/assets/js/7.1325b268.js"><link rel="prefetch" href="/assets/js/8.7ddafe9a.js"><link rel="prefetch" href="/assets/js/9.51868c2e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a95e02d1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">老高笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <!----> </div> <div class="page"> <div class="content default"><h1 id="require-context"><a href="#require-context" aria-hidden="true" class="header-anchor">#</a> require.context</h1> <h2 id="带表达式的-require-语句"><a href="#带表达式的-require-语句" aria-hidden="true" class="header-anchor">#</a> 带表达式的 require 语句</h2> <blockquote><p>如果你的 require参数含有表达式(expressions)，会创建一个上下文(context)，因为在编译时(compile time)并不清楚具体是哪一个模块被导入
+require(&quot;./template/&quot; + name + &quot;.ejs&quot;);</p></blockquote> <p>webpack 解析 require() 的调用，提取出来如下这些信息：</p> <pre><code>Directory: ./template
+Regular expression: /^.*\.ejs$/
+</code></pre> <p>则会返回template目录下的所有后缀为.ejs模块的引用，包含子目录。
+require.context
+可以使用 <code>require.context()</code> 方法来创建自己的（模块）上下文，这个方法有 3 个参数：</p> <ul><li>要搜索的文件夹目录</li> <li>是否还应该搜索它的子目录，</li> <li>以及一个匹配文件的正则表达式。</li></ul> <div class="language-js extra-class"><pre class="language-js"><code>  require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span>directory<span class="token punctuation">,</span> useSubdirectories <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">,</span> regExp <span class="token operator">=</span> <span class="token regex">/^\.\//</span><span class="token punctuation">)</span>
+ 
+
+  require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token string">&quot;./test&quot;</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token regex">/\.test\.js$/</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//（创建了）一个包含了 test 文件夹（不包含子目录）下面的、所有文件名以 `.test.js` 结尾的、能被 require 请求到的文件的上下文。</span>
+ 
+
+  require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token string">&quot;../&quot;</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">,</span> <span class="token regex">/\.stories\.js$/</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">//（创建了）一个包含了父级文件夹（包含子目录）下面，所有文件名以 `.stories.js` 结尾的文件的上下文。</span>
+  
+</code></pre></div><p>require.context模块导出（返回）一个（require）函数，这个函数可以接收一个参数：request 函数–这里的 request 应该是指在 require() 语句中的表达式</p> <p>导出的方法有 3 个属性：</p> <ul><li>resolve</li> <li>keys</li> <li>id</li></ul> <p><code>resolve</code> 是一个函数，它返回请求被解析后得到的模块 id</p> <p><code>keys</code> 也是一个函数，它返回一个数组，由所有可能被上下文模块处理的请求组成。</p> <p><code>id</code> 是上下文模块里面所包含的模块 id. 它可能在你使用 module.hot.accept 的时候被用到</p> <p>Vue 全局组件：</p> <div class="language-js extra-class"><pre class="language-js"><code>module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span><span class="token function-variable function">install</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>Vue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token comment">/*
+   所有在./components目录下的.vue组件自动注册为全局组件
+   以&lt;mv-***&gt;&lt;/mv-***&gt;为组件标签名，***是组件的.name，没有name的时候是组件的文件名
+  */</span>
+
+ <span class="token keyword">const</span> <span class="token function-variable function">requireAll</span> <span class="token operator">=</span> context <span class="token operator">=&gt;</span> context<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">const</span> component <span class="token operator">=</span> require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token string">'./components'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token regex">/\.vue$/</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token comment">// const directive = require.context('./directives', false, /\.js$/);</span>
+
+ <span class="token function">requireAll</span><span class="token punctuation">(</span>component<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+   <span class="token keyword">const</span> name <span class="token operator">=</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>name <span class="token operator">||</span> <span class="token regex">/(\S+\/)(\S+)\.vue/</span><span class="token punctuation">.</span><span class="token function">exec</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>hotID<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`mv-</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span> item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">/**
+* The file enables `@/store/index.js` to import all vuex modules
+* in a one-shot manner. There should not be any reason to edit this file.
+*/</span>
+
+<span class="token keyword">const</span> files <span class="token operator">=</span> require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token string">'./modules'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token regex">/\.js$/</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'------------'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>files<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'------------'</span><span class="token punctuation">)</span>
+<span class="token keyword">const</span> modules <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+files<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span>key <span class="token operator">=&gt;</span> <span class="token punctuation">{</span> 
+   modules<span class="token punctuation">[</span>key<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/(\.\/|\.js)/g</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">files</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">default</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'------------'</span><span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>modules<span class="token punctuation">)</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'------------'</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> modules
+</code></pre></div><p>要引入svg下面所有的svg文件：
+在该文件（icons）目录下新建一个js文件index.js 写如下代码：</p> <div class="language- extra-class"><pre class="language-text"><code>let requireAll = requireContext =&gt; requireContext.keys().map(requireContext)
+let req = require.context('./svg', false, /\.svg$/)
+requireAll(req) 
+</code></pre></div><p>Vue 全局组件</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token function-variable function">requireAll</span> <span class="token operator">=</span> context <span class="token operator">=&gt;</span> context<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> component <span class="token operator">=</span> require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token string">'./components'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token regex">/\.vue$/</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// false 不遍历子目录，true遍历子目录</span>
+
+
+<span class="token function">requireAll</span><span class="token punctuation">(</span>component<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token keyword">default</span><span class="token punctuation">:</span>item<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+	Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`wb-</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>item<span class="token punctuation">.</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span> item<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><p>复制代码首字母大写</p> <div class="language-js extra-class"><pre class="language-js"><code>Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>components<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> name <span class="token operator">=</span> key<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/(\w)/</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> v<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">//首字母大写</span>
+    Vue<span class="token punctuation">.</span><span class="token function">component</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`v</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>name<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">,</span> components<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><p>复制代码利用require.context遍历目录所有图片</p> <p>G:\Code\Vue\vue-global-component\src\assets&gt;tree /f
+卷 其它 的文件夹 PATH 列表
+卷序列号为 1081-0973</p> <div class="language- extra-class"><pre class="language-text"><code>G:.
+│  logo.png
+└─kittens
+        kitten1.jpg
+        kitten2.jpg
+        kitten3.jpg
+        kitten4.jpg
+</code></pre></div><p>复制代码加载所有的图片</p> <div class="language-vue extra-class"><pre class="language-vue"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>template</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>app<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>@/assets/logo.png<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span> <span class="token attr-name">v-for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>item in images<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h3</span><span class="token punctuation">&gt;</span></span>Image: {{ item }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h3</span><span class="token punctuation">&gt;</span></span>
+			<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">:src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>imgUrl(item)<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+	<span class="token keyword">var</span> imagesContext <span class="token operator">=</span> require<span class="token punctuation">.</span><span class="token function">context</span><span class="token punctuation">(</span><span class="token string">'@/assets/kittens/'</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token regex">/\.jpg$/</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>imagesContext<span class="token punctuation">)</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">imagesContext</span><span class="token punctuation">(</span><span class="token string">'./kitten1.jpg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>imagesContext<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+		created<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword">this</span><span class="token punctuation">.</span>images <span class="token operator">=</span> imagesContext<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		name<span class="token punctuation">:</span> <span class="token string">'haha'</span><span class="token punctuation">,</span>
+		<span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			<span class="token keyword">return</span> <span class="token punctuation">{</span>
+				images<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+				msg<span class="token punctuation">:</span> <span class="token string">'Welcome to Your Vue.js App'</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+			imgUrl<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token comment">//console.log('Path:' + path);</span>
+				<span class="token keyword">return</span> <span class="token function">imagesContext</span><span class="token punctuation">(</span>path<span class="token punctuation">)</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">&gt;</span></span><span class="token style language-css">
+	<span class="token selector">#app</span> <span class="token punctuation">{</span>
+		<span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'Avenir'</span>, Helvetica, Arial, sans-serif<span class="token punctuation">;</span>
+		<span class="token property">-webkit-font-smoothing</span><span class="token punctuation">:</span> antialiased<span class="token punctuation">;</span>
+		<span class="token property">-moz-osx-font-smoothing</span><span class="token punctuation">:</span> grayscale<span class="token punctuation">;</span>
+		<span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+		<span class="token property">color</span><span class="token punctuation">:</span> #2c3e50<span class="token punctuation">;</span>
+		<span class="token property">margin-top</span><span class="token punctuation">:</span> 60px<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token selector">h1,
+	h2</span> <span class="token punctuation">{</span>
+		<span class="token property">font-weight</span><span class="token punctuation">:</span> normal<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token selector">ul</span> <span class="token punctuation">{</span>
+		<span class="token property">list-style-type</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+		<span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token selector">li</span> <span class="token punctuation">{</span>
+		<span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+		<span class="token property">margin</span><span class="token punctuation">:</span> 0 10px<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token selector">a</span> <span class="token punctuation">{</span>
+		<span class="token property">color</span><span class="token punctuation">:</span> #42b983<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <!----> </div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.18732c23.js" defer></script><script src="/assets/js/3.ee3477e8.js" defer></script><script src="/assets/js/2.438c29d7.js" defer></script><script src="/assets/js/20.d6d88328.js" defer></script>
+  </body>
+</html>

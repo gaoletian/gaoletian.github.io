@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>flutter 知识点 | 老高笔记</title>
+    <meta name="description" content="Just playing around">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.a95e02d1.css" as="style"><link rel="preload" href="/assets/js/app.18732c23.js" as="script"><link rel="preload" href="/assets/js/3.ee3477e8.js" as="script"><link rel="preload" href="/assets/js/2.438c29d7.js" as="script"><link rel="preload" href="/assets/js/10.12412978.js" as="script"><link rel="prefetch" href="/assets/js/11.f08e7872.js"><link rel="prefetch" href="/assets/js/12.bffe24c1.js"><link rel="prefetch" href="/assets/js/13.6fb41f51.js"><link rel="prefetch" href="/assets/js/14.0883bdf8.js"><link rel="prefetch" href="/assets/js/15.62ff05ba.js"><link rel="prefetch" href="/assets/js/16.5eae74de.js"><link rel="prefetch" href="/assets/js/17.edae1397.js"><link rel="prefetch" href="/assets/js/18.e57db8f2.js"><link rel="prefetch" href="/assets/js/19.d25e9189.js"><link rel="prefetch" href="/assets/js/20.d6d88328.js"><link rel="prefetch" href="/assets/js/21.eb00de78.js"><link rel="prefetch" href="/assets/js/4.b8c9bd84.js"><link rel="prefetch" href="/assets/js/5.0373c51a.js"><link rel="prefetch" href="/assets/js/6.3f0f2157.js"><link rel="prefetch" href="/assets/js/7.1325b268.js"><link rel="prefetch" href="/assets/js/8.7ddafe9a.js"><link rel="prefetch" href="/assets/js/9.51868c2e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a95e02d1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">老高笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <!----> </div> <div class="page"> <div class="content default"><h1 id="flutter-知识点"><a href="#flutter-知识点" aria-hidden="true" class="header-anchor">#</a> flutter 知识点</h1> <p>支持 AOT(预编译 Ahead of time)和JIT(即时编译 Just-in-Time)</p> <p>JIT编译导致运行期间的性能损耗。 由于需要在浏览器中执行这个编译过程，视图需要花更长时间才能渲染出来。 由于应用包含了Angular编译器以及大量实际上并不需要的库代码，所以文件体积也会更大。 更大的应用需要更长的时间进行传输，加载也更慢。</p> <p>预编译（AOT）会在构建时编译，这样可以在早期截获模板错误，提高应用性能</p> <ol><li><p>下载 flutter_macos_v1.0.0-stable</p> <p>http://172.96.195.146:8080/flutter_macos_v1.0.0-stable.zip</p></li> <li><p>进入目录解压</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">cd</span> downloads
+unzip flutter_macos_v1.0.0-stable.zip
+</code></pre></div></li> <li><p>设置环境变量</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">nano</span> ~/.bashrc
+// 配置环境变量 PATH
+// .bashrc
+<span class="token function">export</span> PATH<span class="token operator">=</span><span class="token string">&quot;/flutter/bin:<span class="token variable">$PATH</span>&quot;</span> <span class="token comment"># add flutter sdk path</span>
+
+<span class="token function">source</span> ~/.bashrc
+</code></pre></div></li> <li><p>运行环境检测</p> <div class="language-bash extra-class"><pre class="language-bash"><code>flutter doctor
+</code></pre></div><p>需要安装 andriod sdk , xcode</p></li></ol> <h1 id="ide"><a href="#ide" aria-hidden="true" class="header-anchor">#</a> IDE</h1> <ul><li>Android Studio, version 3.0 or later</li></ul> <p>安装插件</p> <pre><code>- Flutter
+- Dart
+</code></pre> <h1 id="dart"><a href="#dart" aria-hidden="true" class="header-anchor">#</a> Dart</h1> <h2 id="异步函数"><a href="#异步函数" aria-hidden="true" class="header-anchor">#</a> 异步函数</h2> <ul><li>Future</li></ul> <p>与 Promise 概念和用法都比较相似
+Stream 流式处理</p> <ul><li>Stream</li></ul> <div class="language-dart extra-class"><pre class="language-dart"><code>Stream<span class="token punctuation">.</span><span class="token function">fromFutures</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+  <span class="token comment">// 1秒后返回结果</span>
+  Future<span class="token punctuation">.</span><span class="token function">delayed</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Duration</span><span class="token punctuation">(</span>seconds<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">&quot;hello 1&quot;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token comment">// 抛出一个异常</span>
+  Future<span class="token punctuation">.</span><span class="token function">delayed</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Duration</span><span class="token punctuation">(</span>seconds<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token function">AssertionError</span><span class="token punctuation">(</span><span class="token string">&quot;Error&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token comment">// 3秒后返回结果</span>
+  Future<span class="token punctuation">.</span><span class="token function">delayed</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Duration</span><span class="token punctuation">(</span>seconds<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">&quot;hello 3&quot;</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token function">print</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span> onError<span class="token punctuation">:</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+   <span class="token function">print</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>onDone<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <!----> </div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.18732c23.js" defer></script><script src="/assets/js/3.ee3477e8.js" defer></script><script src="/assets/js/2.438c29d7.js" defer></script><script src="/assets/js/10.12412978.js" defer></script>
+  </body>
+</html>

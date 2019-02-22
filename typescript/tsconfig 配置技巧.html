@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>tsconfig 配置技巧 | 老高笔记</title>
+    <meta name="description" content="Just playing around">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.a95e02d1.css" as="style"><link rel="preload" href="/assets/js/app.18732c23.js" as="script"><link rel="preload" href="/assets/js/3.ee3477e8.js" as="script"><link rel="preload" href="/assets/js/2.438c29d7.js" as="script"><link rel="preload" href="/assets/js/19.d25e9189.js" as="script"><link rel="prefetch" href="/assets/js/10.12412978.js"><link rel="prefetch" href="/assets/js/11.f08e7872.js"><link rel="prefetch" href="/assets/js/12.bffe24c1.js"><link rel="prefetch" href="/assets/js/13.6fb41f51.js"><link rel="prefetch" href="/assets/js/14.0883bdf8.js"><link rel="prefetch" href="/assets/js/15.62ff05ba.js"><link rel="prefetch" href="/assets/js/16.5eae74de.js"><link rel="prefetch" href="/assets/js/17.edae1397.js"><link rel="prefetch" href="/assets/js/18.e57db8f2.js"><link rel="prefetch" href="/assets/js/20.d6d88328.js"><link rel="prefetch" href="/assets/js/21.eb00de78.js"><link rel="prefetch" href="/assets/js/4.b8c9bd84.js"><link rel="prefetch" href="/assets/js/5.0373c51a.js"><link rel="prefetch" href="/assets/js/6.3f0f2157.js"><link rel="prefetch" href="/assets/js/7.1325b268.js"><link rel="prefetch" href="/assets/js/8.7ddafe9a.js"><link rel="prefetch" href="/assets/js/9.51868c2e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a95e02d1.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">老高笔记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <!----> </div> <div class="page"> <div class="content default"><h1 id="tsconfig-配置技巧"><a href="#tsconfig-配置技巧" aria-hidden="true" class="header-anchor">#</a> tsconfig 配置技巧</h1> <h2 id="路径别名——附加模块路径解析"><a href="#路径别名——附加模块路径解析" aria-hidden="true" class="header-anchor">#</a> 路径别名——附加模块路径解析</h2> <p>未使用别名</p> <pre><code>`import {user} from '../../app/model/user';`
+</code></pre> <p>使用别名后</p> <pre><code>`import {user} from 'model/user';`
+</code></pre> <p><strong>tsconfig.json</strong></p> <div class="language-json extra-class"><pre class="language-json"><code>	<span class="token property">&quot;compilerOptions&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+	  <span class="token property">&quot;baseUrl&quot;</span><span class="token operator">:</span> <span class="token string">&quot;.&quot;</span><span class="token punctuation">,</span> // baseUrl 必需配置
+	  <span class="token property">&quot;paths&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+		  <span class="token property">&quot;model/*&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;app/model/*&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		  <span class="token property">&quot;@model&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;app/model&quot;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+		  <span class="token property">&quot;@/*&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">&quot;app/*&quot;</span><span class="token punctuation">]</span>
+	  <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</code></pre></div><div class="tip custom-block"><p class="custom-block-title">TIP</p> <p><code>ts-node</code> 执行或 <code>ts</code> 编译成 <code>js</code> 时， 路径别名也是原样输入的，因此会产生<code>nodejs</code>运行时找不到模块的问题.</p> <p>解决办法是使用 <a href="https://github.com/dividab/tsconfig-paths" target="_blank" rel="noopener noreferrer">tsconfig-paths<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> 模块, 这个模块可以让<code>ts-node</code> 或 <code>nodejs</code> 在运行时自动转换路径别名为真实路径</p></div> <h1 id="类型映射"><a href="#类型映射" aria-hidden="true" class="header-anchor">#</a> 类型映射</h1> <div class="language-ts extra-class"><pre class="language-ts"><code>  <span class="token comment">/**
+   * Powerful Partial, Support adding ? modifier to a mapped property in deep level
+   * @example
+   * import { PowerPartial, EggAppConfig } from 'egg';
+   *
+   * // { view: { defaultEngines: string } } =&gt; { view?: { defaultEngines?: string } }
+   * type EggConfig = PowerPartial&lt;EggAppConfig&gt;
+   */</span>
+  <span class="token keyword">export</span> <span class="token keyword">type</span> PowerPartial<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token operator">&gt;</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token punctuation">[</span><span class="token constant">U</span> <span class="token keyword">in</span> keyof <span class="token constant">T</span><span class="token punctuation">]</span><span class="token operator">?</span><span class="token punctuation">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">U</span><span class="token punctuation">]</span> <span class="token keyword">extends</span> <span class="token class-name">object</span>
+      <span class="token operator">?</span> PowerPartial<span class="token operator">&lt;</span><span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">U</span><span class="token punctuation">]</span><span class="token operator">&gt;</span>
+      <span class="token punctuation">:</span> <span class="token constant">T</span><span class="token punctuation">[</span><span class="token constant">U</span><span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><p>nuxt2</p> <p>consola/webpackbar</p> <p>优化：</p> <p>code splitting
+resource hint
+critical css</p> <p>扩展性：
+module
+hooks
+require('nuxt')</p> <p>modern mode 现代模式</p> <p>remove polyfill to target evergreen browsers</p> <p>npx nuxt build --modern</p> <ol><li>后台接口出现异常必须打印信息</li> <li>为了减少减少线上排查问题的干扰信息，前端必须做数据较验，越严格越好</li></ol> <p>接口异常总结</p> <ol><li>参数错误</li> <li>语法错误</li> <li>网络异常 （微服务相互调用）</li> <li>内存益出</li> <li>cpu负载过高</li> <li>逻辑问题</li></ol></div> <div class="page-edit"><!----> <!----></div> <!----> </div></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.18732c23.js" defer></script><script src="/assets/js/3.ee3477e8.js" defer></script><script src="/assets/js/2.438c29d7.js" defer></script><script src="/assets/js/19.d25e9189.js" defer></script>
+  </body>
+</html>
